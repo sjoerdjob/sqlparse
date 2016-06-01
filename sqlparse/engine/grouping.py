@@ -23,15 +23,17 @@ def _group_left_right(tlist, m, cls,
 
     token = tlist.token_next_by(m=m)
     while token:
-        left, right = tlist.token_prev(tlist.token_index(token)), tlist.token_next(tlist.token_index(token))
+        tidx = tlist.token_index(token)
+        left, right = tlist.token_prev(tidx), tlist.token_next(tidx)
 
         if valid_left(left) and valid_right(right):
             if semicolon:
-                sright = tlist.token_next_by(m=M_SEMICOLON, idx=tlist.token_index(right) + 1)
+                sright = tlist.token_next_by(m=M_SEMICOLON, idx=tidx + 1)
                 right = sright or right  # only overwrite if a semicolon present.
             tokens = tlist.tokens_between(left, right)
+            # Luckily, this leaves the position of `token` intact.
             token = tlist.group_tokens(cls, tokens, extend=True)
-        token = tlist.token_next_by(m=m, idx=tlist.token_index(token) + 1)
+        token = tlist.token_next_by(m=m, idx=tidx + 1)
 
 
 def _group_matching(tlist, cls):
