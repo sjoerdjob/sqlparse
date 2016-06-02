@@ -30,9 +30,8 @@ def _group_left_right(tlist, m, cls,
             if semicolon:
                 sright = tlist.token_next_by(m=M_SEMICOLON, idx=tidx + 1)
                 right = sright or right  # only overwrite if a semicolon present.
-            tokens = tlist.tokens_between(left, right)
             # Luckily, this leaves the position of `token` intact.
-            token = tlist.group_tokens(cls, tokens, extend=True)
+            token = tlist.group_tokens_between(cls, left, right, extend=True)
         token = tlist.token_next_by(m=m, idx=tidx + 1)
 
 
