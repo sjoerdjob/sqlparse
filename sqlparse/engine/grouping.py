@@ -166,11 +166,14 @@ def group_identifier_list(tlist):
     token = tlist.token_next_by(m=M_COMMA)
 
     while token:
-        before, after = tlist.token_prev(tlist.token_index(token)), tlist.token_next(tlist.token_index(token))
+        tidx = tlist.token_index(token)
+        before, after = tlist.token_prev(tidx), tlist.token_next(tidx)
 
         if func(before) and func(after):
-            token = tlist.group_tokens_between(sql.IdentifierList, before, after, extend=True)
-        token = tlist.token_next_by(m=M_COMMA, idx=tlist.token_index(token) + 1)
+            tidx = tlist.token_index(before)
+            token = tlist.group_tokens_between(sql.IdentifierList, tidx, after, extend=True)
+
+        token = tlist.token_next_by(m=M_COMMA, idx=tidx + 1)
 
 
 def group_brackets(tlist):
