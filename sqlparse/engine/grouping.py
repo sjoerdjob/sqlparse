@@ -41,11 +41,12 @@ def _group_matching(tlist, cls):
 
     token = tlist.token_next_by(m=cls.M_OPEN, idx=idx)
     while token:
-        end = find_matching(tlist, token, cls.M_OPEN, cls.M_CLOSE)
+        tidx = tlist.token_index(token)
+        end = find_matching(tlist, tidx, cls.M_OPEN, cls.M_CLOSE)
         if end is not None:
-            token = tlist.group_tokens_between(cls, token, end)
+            token = tlist.group_tokens_between(cls, tidx, end)
             _group_matching(token, cls)
-        token = tlist.token_next_by(m=cls.M_OPEN, idx=tlist.token_index(token) + 1)
+        token = tlist.token_next_by(m=cls.M_OPEN, idx=tidx + 1)
 
 
 def group_if(tlist):
