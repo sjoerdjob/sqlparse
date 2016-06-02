@@ -109,8 +109,9 @@ def group_identifier(tlist):
 
     token = tlist.token_next_by(t=T_IDENT)
     while token:
-        token = tlist.group_tokens(sql.Identifier, [token, ])
-        token = tlist.token_next_by(t=T_IDENT, idx=tlist.token_index(token) + 1)
+        tidx = tlist.token_index(token)
+        token = tlist.group_tokens_between(sql.Identifier, tidx, tidx)
+        token = tlist.token_next_by(t=T_IDENT, idx=tidx + 1)
 
 
 def group_period(tlist):
