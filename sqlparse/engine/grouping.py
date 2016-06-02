@@ -2,7 +2,7 @@
 
 from sqlparse import sql
 from sqlparse import tokens as T
-from sqlparse.utils import recurse, imt, find_matching
+from sqlparse.utils import recurse, imt, find_matching_idx
 
 M_ROLE = (T.Keyword, ('null', 'role'))
 M_SEMICOLON = (T.Punctuation, ';')
@@ -42,9 +42,9 @@ def _group_matching(tlist, cls):
     token = tlist.token_next_by(m=cls.M_OPEN, idx=idx)
     while token:
         tidx = tlist.token_index(token)
-        end = find_matching(tlist, tidx, cls.M_OPEN, cls.M_CLOSE)
-        if end is not None:
-            token = tlist.group_tokens_between(cls, tidx, end)
+        endidx = find_matching_idx(tlist, tidx, cls.M_OPEN, cls.M_CLOSE)
+        if endidx is not None:
+            token = tlist.group_tokens_between(cls, tidx, endidx)
             _group_matching(token, cls)
         token = tlist.token_next_by(m=cls.M_OPEN, idx=tidx + 1)
 
