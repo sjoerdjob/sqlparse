@@ -163,17 +163,16 @@ def group_identifier_list(tlist):
                     (T.Keyword, T.Comment, T.Wildcard))
 
     func = lambda t: imt(t, i=I_IDENT_LIST, m=M_ROLE, t=T_IDENT_LIST)
-    token = tlist.token_next_by(m=M_COMMA)
 
+    tidx, token = tlist.token_idx_next_by(m=M_COMMA)
     while token:
-        tidx = tlist.token_index(token)
         before, after = tlist.token_prev(tidx), tlist.token_next(tidx)
 
         if func(before) and func(after):
             tidx = tlist.token_index(before)
             token = tlist.group_tokens_between(sql.IdentifierList, tidx, after, extend=True)
 
-        token = tlist.token_next_by(m=M_COMMA, idx=tidx + 1)
+        tidx, token = tlist.token_idx_next_by(m=M_COMMA, idx=tidx + 1)
 
 
 def group_brackets(tlist):
