@@ -219,10 +219,11 @@ def group_aliased(tlist):
 
     token = tlist.token_next_by(i=I_ALIAS, t=T.Number)
     while token:
-        next_ = tlist.token_next(tlist.token_index(token))
+        tidx = tlist.token_index(token)
+        next_ = tlist.token_next(tidx)
         if imt(next_, i=sql.Identifier):
-            token = tlist.group_tokens_between(sql.Identifier, token, next_, extend=True)
-        token = tlist.token_next_by(i=I_ALIAS, t=T.Number, idx=tlist.token_index(token) + 1)
+            token = tlist.group_tokens_between(sql.Identifier, tidx, next_, extend=True)
+        token = tlist.token_next_by(i=I_ALIAS, t=T.Number, idx=tidx + 1)
 
 
 def group_typecasts(tlist):
