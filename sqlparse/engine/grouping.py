@@ -2,7 +2,7 @@
 
 from sqlparse import sql
 from sqlparse import tokens as T
-from sqlparse.utils import recurse, imt, find_matching_idx
+from sqlparse.utils import recurse, imt
 
 M_ROLE = (T.Keyword, ('null', 'role'))
 M_SEMICOLON = (T.Punctuation, ';')

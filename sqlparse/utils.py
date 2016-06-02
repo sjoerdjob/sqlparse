@@ -163,18 +163,6 @@ def imt(token, i=None, m=None, t=None):
         return False
 
 
-def find_matching_idx(tlist, idx, M1, M2):
-    depth = 0
-    tslice = tlist.tokens[idx:]
-    for token in tslice:
-        if token.match(*M1):
-            depth += 1
-        elif token.match(*M2):
-            depth -= 1
-            if depth == 0:
-                return tslice.index(token) + idx
-
-
 def find_matching(tlist, token, M1, M2):
     idx = tlist.token_index(token) if not isinstance(token, int) else token
     depth = 0
